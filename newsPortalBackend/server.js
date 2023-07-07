@@ -7,6 +7,7 @@ require("colors");
 connectDB();
 const app = express();
 const userRoute = require("./routes/userRoute");
+const categoryRoute = require("./routes/categoryRoute");
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/users", userRoute);
+app.use("/api/category", categoryRoute);
 
 app.get("*", (req, res) => {
   console.log("The endpoint is not found!");
