@@ -73,6 +73,7 @@ const deleteCategory = async (req, res, next) => {
 //Update Category
 const updateCategory = async (req, res, next) => {
   try {
+    console.log(req.body, "<<<");
     const category = await Category.findByIdAndUpdate(
       req.params.catId,
       req.body,
@@ -81,18 +82,17 @@ const updateCategory = async (req, res, next) => {
         runValidators: true,
       }
     );
-    res.status(201).json({
-      succes: true,
-      msg: "Successfully Updated.",
-      data: category,
-    });
-
     if (!category) {
       res.status(404).json({
         succes: false,
         msg: "Category not found.",
       });
     }
+    res.status(200).json({
+      succes: true,
+      msg: "Successfully Updated.",
+      data: category,
+    });
   } catch (error) {
     return res.status(500).json({
       succes: false,
