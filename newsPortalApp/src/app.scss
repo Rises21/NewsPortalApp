@@ -1,0 +1,328 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+$customPrimaryColor: rgba(255, 0, 0);
+$customSecondaryColor: rgba(0, 255, 0);
+$customThirdColor: rgba(0, 0, 255);
+$customFourthColor: rgba(255, 255, 0);
+$customFifthColor: rgba(0, 255, 255);
+$customSixthColor: rgba(155, 155, 255);
+$customSeventhColor: rgba(155, 155, 155);
+$pureWhite: #fff;
+$pureBlack: #000;
+html {
+  height: auto;
+}
+@media only screen and (max-width: 576px) {
+  html {
+    font-size: 0.4rem;
+  }
+}
+@media only screen and (max-width: 768px) {
+  html {
+    font-size: 0.6rem;
+  }
+}
+@media only screen and (max-width: 992px) {
+  html {
+    font-size: 0.8rem;
+  }
+}
+
+.rgb-background {
+  background: linear-gradient(
+    0deg,
+    $customFifthColor,
+    $customSixthColor,
+    $customSeventhColor
+  );
+}
+
+a {
+  text-decoration: none;
+}
+
+// // Navbar style @
+
+// custom navbar list @
+.customNavLink {
+  a {
+    position: relative;
+    padding: 8px 4px;
+    font-weight: bold;
+    border-bottom: solid 0 $pureBlack;
+    color: $customFourthColor;
+    text-shadow: 1px 1px 0 $customSecondaryColor,
+      -1px -1px 0 $customPrimaryColor, 0 1 2px $pureBlack;
+  }
+  a::before {
+    transition: all ease-in-out 0.3s;
+    content: "";
+    width: 100%;
+    height: 4px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: $pureWhite;
+    text-shadow: 0 0 0 $customSecondaryColor, 0 0 0 $customPrimaryColor;
+    scale: 0;
+  }
+  a:hover {
+    color: $customSecondaryColor;
+  }
+  a:hover::before {
+    scale: 1;
+  }
+}
+.customNavLink .active {
+  color: $customSecondaryColor;
+}
+
+// custom navbar list &
+
+.navbar-toggler,
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+  border: none;
+  box-shadow: none;
+}
+.navbar-toggler {
+  width: 30px;
+  height: 30px;
+  padding: 2px;
+  margin: 0;
+}
+
+.navbar-toggler-icon {
+  transition: all ease-in-out 0.3s;
+  width: 0;
+  height: 15%;
+  position: absolute;
+  top: 42.5%;
+  right: 0;
+  background-image: linear-gradient(
+    160deg,
+    rgb(0, 255, 0),
+    rgb(0, 0, 255),
+    // rgb(255, 0, 0)
+  );
+}
+.navbar-toggler::before {
+  transition: all ease-in-out 0.3s;
+  content: "";
+  width: 100%;
+  height: 15%;
+  position: absolute;
+  top: 42.5%;
+  right: 0;
+  rotate: 45deg;
+  background-image: linear-gradient(
+    160deg,
+    rgb(255, 0, 0),
+    rgb(0, 255, 0),
+    // rgb(0, 0, 255)
+  );
+}
+.navbar-toggler::after {
+  transition: all ease-in-out 0.3s;
+  content: "";
+  width: 100%;
+  height: 15%;
+  position: absolute;
+  bottom: 42.5%;
+  right: 0;
+  rotate: 135deg;
+  background-image: linear-gradient(
+    160deg,
+    rgb(0, 0, 255),
+    rgb(255, 0, 0),
+    // rgb(0, 255, 0)
+  );
+}
+
+.collapsed .navbar-toggler-icon {
+  transition: all ease-in-out 0.3s;
+  width: 100%;
+  height: 15%;
+  position: absolute;
+  top: 42.5%;
+  right: 0;
+  background-image: linear-gradient(
+    160deg,
+    rgb(0, 255, 0),
+    rgb(0, 0, 255),
+    // rgb(255, 0, 0)
+  );
+}
+.collapsed::before {
+  top: 10%;
+  right: 0;
+  rotate: 0deg;
+}
+.collapsed::after {
+  bottom: 10%;
+  right: 0;
+  rotate: 0deg;
+}
+
+// // Navbar style @
+
+//Carousel style @
+.carousel-caption {
+  padding: 2% 15% 15% 15%;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  height: 30%;
+  background-color: rgba($color: #000000, $alpha: 0.5);
+}
+.carousel-indicators {
+  [data-bs-target] {
+    height: 16px;
+    width: 16px;
+    margin: auto 1%;
+    border-radius: 50%;
+  }
+}
+//Carousel style &
+
+//Search Bar @
+.categoriesNav {
+  a {
+    border: outset 1px rgba($color: $customFourthColor, $alpha: 1);
+    border-radius: 15px;
+    background-color: rgba($color: $customSeventhColor, $alpha: 0.7);
+    color: $customFourthColor;
+    padding: 4px 16px;
+  }
+  a:hover {
+    color: $customSecondaryColor;
+    border-color: $customSecondaryColor;
+  }
+}
+
+//Search Bar &
+
+//Search By Categories @
+.newsCardCategories {
+  width: 400px;
+  min-height: 150px;
+  color: #fff;
+  background-color: rgba(#000000, 0.6);
+  border-color: #fff;
+  img {
+    min-width: 25%;
+  }
+  .cardBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+  }
+}
+
+//Search By Categories &
+
+//Login page style @
+
+.forBg__wrapper {
+  position: relative;
+  width: 100%;
+  height: 0;
+  top: 0;
+  left: 0;
+  padding: 0;
+  padding-bottom: 75%;
+  .login__bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: url(./assets/bgLogin.svg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    .loginForm__container {
+      margin: 0;
+      margin-top: 10%;
+      .centeringForm {
+        padding: 0;
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.1);
+        width: 350px;
+        border-radius: 15px;
+        box-shadow: 2px 1px 12px rgba(0, 0, 0, 0.3);
+        .tittleHeader__container {
+          width: 100%;
+          margin: 0;
+          .tittleHeader__login {
+            padding: 8px 0;
+            font-variant: small-caps;
+            font-weight: bold;
+            border-radius: 20px 20px 50px 50px;
+            background-color: #0d6efd;
+          }
+        }
+        .loginForm {
+          width: 80%;
+          margin: 6px auto;
+          .containerInput__user {
+            position: relative;
+            top: 0;
+            right: 0;
+            .container__icon {
+              position: absolute;
+              top: 4px;
+              right: 2px;
+            }
+          }
+          .inputForm__login {
+            color: $customSecondaryColor;
+            padding-left: 0;
+            border-style: none;
+            border-radius: 0;
+            border-bottom: 1px solid $customFourthColor;
+            background-color: transparent;
+          }
+          .inputForm__login::placeholder {
+            color: $customPrimaryColor;
+          }
+
+          .inputForm__login:focus-visible {
+            text-align: center;
+            color: $customFourthColor;
+            border: none;
+            box-shadow: none;
+            background-color: transparent;
+            border-bottom: 1px solid rgba($customSecondaryColor, 0.4);
+          }
+        }
+
+        .dividerButton__login {
+          color: rgba(#000000, 0.6);
+        }
+        .dividerButton__login::before {
+          content: "";
+          display: inline-block;
+          width: 22%;
+          height: 1px;
+          background: rgba(#000000, 0.4);
+          right: 4px;
+          bottom: 4px;
+          position: relative;
+        }
+        .dividerButton__login::after {
+          content: "";
+          display: inline-block;
+          width: 22%;
+          height: 1px;
+          background: rgba(#000000, 0.4);
+          left: 4px;
+          bottom: 4px;
+          position: relative;
+        }
+      }
+    }
+  }
+}
+
+//Login page style &
