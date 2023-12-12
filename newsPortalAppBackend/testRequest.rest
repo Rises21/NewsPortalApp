@@ -1,5 +1,5 @@
 GET http://localhost:3002/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTczMmRlY2M3NDcxZTVmNjgyNzA1MzQiLCJuYW1lIjoicGVvcGxlMiIsImVtYWlsIjoicGVvcGxlMkBnbWFpbC5jb20iLCJpYXQiOjE3MDI0MDQ2MjYsImV4cCI6MTcwMjQwNDY2Nn0.7huNyGZq-fbzpM6QWIYWVCY4uydxy2Z40MEEVV-gt08
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc4YzJlODFiNWE0NGQ5ZmE0MjExYmYiLCJuYW1lIjoicGVvcGxlMyIsImVtYWlsIjoicGVvcGxlM0BnbWFpbC5jb20iLCJpYXQiOjE3MDI0MTMwNDAsImV4cCI6MTcwMjQxMzA2MH0.aeEqBLashw5CuF6COvAKSH_sInB5-eA9MHqOdcODFbs
 
 
 ###
@@ -7,9 +7,9 @@ POST http://localhost:3002/register
 Content-Type: application/json
 
 {
-    "name": "people3"
-    "email": "people3@gmail.com",
-    "password": "anything3"
+    "name": "people4",
+    "email": "people4@gmail.com",
+    "password": "anything4"
 }
 
 ###
@@ -18,8 +18,8 @@ POST http://localhost:3002/login
 Content-Type: application/json
 
 {
-    "email": "people2@gmail.com",
-    "password": "anything2"
+    "email": "people4@gmail.com",
+    "password": "anything4"
 }
 
 ###
@@ -27,3 +27,20 @@ GET http://localhost:3002/token
 
 ###
 DELETE http://localhost:3002/logout
+
+###
+POST http://localhost:3002/savedNews
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc4YzJlODFiNWE0NGQ5ZmE0MjExYmYiLCJuYW1lIjoicGVvcGxlMyIsImVtYWlsIjoicGVvcGxlM0BnbWFpbC5jb20iLCJpYXQiOjE3MDI0MTMzNjMsImV4cCI6MTcwMjQxNDI2M30.1hbSMJ55gyluz7gkbYxXS58rgKk8YPs_PUj5h3NKu4A
+
+{
+  "thumbnail": "iwni adalahdatanya",
+  "title": "iwni adalahdatanya",
+  "description": "iwni adalahdatanya",
+  "link": "iwni adalahdatanya",
+  "pubDate": "iwni adalahdatanya"
+}
+
+###
+GET http://localhost:3002/savedNews
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc4YzJlODFiNWE0NGQ5ZmE0MjExYmYiLCJuYW1lIjoicGVvcGxlMyIsImVtYWlsIjoicGVvcGxlM0BnbWFpbC5jb20iLCJpYXQiOjE3MDI0MTMzNjMsImV4cCI6MTcwMjQxNDI2M30.1hbSMJ55gyluz7gkbYxXS58rgKk8YPs_PUj5h3NKu4A

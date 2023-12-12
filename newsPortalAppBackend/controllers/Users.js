@@ -3,11 +3,11 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const getUsers = async (req, res) => {
-  console.log(req.email, "????");
+  //console.log(req.email, "????");
   try {
-    const users = await User.findOne({ email: req.email }).select(
-      "-password -refresh_token"
-    );
+    const users = await User.findOne({ email: req.email })
+      .populate("savedNews")
+      .select("-password -refresh_token");
     res.status(200).json(users);
   } catch (err) {
     console.log(err.message);
