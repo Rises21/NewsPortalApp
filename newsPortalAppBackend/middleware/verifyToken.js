@@ -10,7 +10,7 @@ export const verifyToken = (req, res, next) => {
     console.log(decoded, "this is decoded");
     if (error) return res.sendStatus(403);
     req.email = decoded.email; //nama variabel karena email disertakan didalam tokennya
-    console.log(req.email, "<<<?>");
+    //console.log(req.email, "<<<?>");
     next();
   });
 };

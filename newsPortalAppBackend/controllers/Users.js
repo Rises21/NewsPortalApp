@@ -6,7 +6,10 @@ export const getUsers = async (req, res) => {
   //console.log(req.email, "????");
   try {
     const users = await User.findOne({ email: req.email })
-      .populate("savedNews")
+      .populate({
+        path: "newsSaved",
+        select: "thumbnail title description link pubDate",
+      })
       .select("-password -refresh_token");
     res.status(200).json(users);
   } catch (err) {
@@ -16,10 +19,15 @@ export const getUsers = async (req, res) => {
 
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
+
   if (password.length < 8)
     return res
       .status(400)
-      .json({ msg: "Password to short, minimum length is 8 character." });
+      .json({ msg: "Password is to short, minimum length is 8 character." });
+  if (password.length > 20)
+    return res
+      .status(400)
+      .json({ msg: "Password is to long, maximum length is 20 character." });
   const salt = await bcrypt.genSalt();
   const hashPassword = await bcrypt.hash(password, salt);
   try {
@@ -30,6 +38,8 @@ export const register = async (req, res) => {
     });
     res.json({ msg: "Register Success." });
   } catch (err) {
+    if (err.code === 11000)
+      return res.status(400).json({ msg: "Email already exist." });
     console.log(err);
   }
 };

@@ -4,7 +4,9 @@ import User from "../models/User.js";
 export const getNews = async (req, res) => {
   //console.log(req.email, "????");
   try {
-    const news = await User.findOne({ email: req.email });
+    const user = await User.findOne({ email: req.email });
+    //console.log(user, "<<user<<");
+    const news = await News.find({ user: user._id });
     res.status(200).json(news);
   } catch (err) {
     console.log(err.message);
@@ -19,15 +21,16 @@ export const savedNews = async (req, res) => {
     const users = await User.findOne({ email: req.email }).select(
       "-password -refresh_token"
     );
-    users.savedNews = await News.create({
+    const newss = await News.create({
       thumbnail,
       title,
       description,
       link,
       pubDate,
+      user: users._id,
     });
-    users.save();
-    res.json({ user: users, msg: "savedNews Success." });
+    newss.save();
+    res.json({ data: newss, msg: "savedNews Success." });
   } catch (err) {
     console.log(err);
   }

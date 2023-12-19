@@ -1,10 +1,16 @@
 import { Container, Row, Col, Form, InputGroup, Button } from "react-bootstrap";
 import gmailLogo from "../assets/gmailLogo.svg";
 import passwordIcon from "../assets/passwordIcon.svg";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = ({ auth }) => {
   //dont foreget to add params authed later !!!
   console.log(auth);
+  const navigate = useNavigate();
+
+  function handleClick() {
+    navigate("/register");
+  }
   return (
     <div className="forBg__wrapper">
       <div className="login__bg">
@@ -58,6 +64,7 @@ const LoginPage = ({ auth }) => {
               variant="outline-primary"
               type="submit"
               className="mb-4 px-4"
+              onClick={handleClick}
             >
               Create Account
             </Button>

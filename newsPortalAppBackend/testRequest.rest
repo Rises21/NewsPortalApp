@@ -1,5 +1,5 @@
 GET http://localhost:3002/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc4YzllYmZkNDBlZDY3NTkyZmI0NTYiLCJuYW1lIjoicGVvcGxlNCIsImVtYWlsIjoicGVvcGxlNEBnbWFpbC5jb20iLCJpYXQiOjE3MDI0MTUzODMsImV4cCI6MTcwMjQxNjI4M30.fdXOvwK5eY65d8brjAfMzC6DKHsSTQbRMbOLaWtLBS8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTdiNGZkZDZiODY2YjM5ODdiNDVjMzkiLCJuYW1lIjoicGVvcGxlMSIsImVtYWlsIjoicGVvcGxlMTJAZ21haWwuY29tIiwiaWF0IjoxNzAyNTgwMjI5LCJleHAiOjE3MDI1ODExMjl9.XjTjT5Ey_4S_iBp-33wF0W8uUd1K92iAqIjTZRkzqCo
 
 
 ###
@@ -7,9 +7,9 @@ POST http://localhost:3002/register
 Content-Type: application/json
 
 {
-    "name": "people4",
-    "email": "people4@gmail.com",
-    "password": "anything4"
+    "name": "people1",
+    "email": "peop1234@gmail.com",
+    "password": "178910890"
 }
 
 ###
@@ -18,7 +18,7 @@ POST http://localhost:3002/login
 Content-Type: application/json
 
 {
-    "email": "people4@gmail.com",
+    "email": "people12@gmail.com",
     "password": "anything4"
 }
 
@@ -31,7 +31,7 @@ DELETE http://localhost:3002/logout
 ###
 POST http://localhost:3002/savedNews
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc4YzllYmZkNDBlZDY3NTkyZmI0NTYiLCJuYW1lIjoicGVvcGxlNCIsImVtYWlsIjoicGVvcGxlNEBnbWFpbC5jb20iLCJpYXQiOjE3MDI0MTUzODMsImV4cCI6MTcwMjQxNjI4M30.fdXOvwK5eY65d8brjAfMzC6DKHsSTQbRMbOLaWtLBS8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTdiNGZkZDZiODY2YjM5ODdiNDVjMzkiLCJuYW1lIjoicGVvcGxlMSIsImVtYWlsIjoicGVvcGxlMTJAZ21haWwuY29tIiwiaWF0IjoxNzAyNTgwMjI5LCJleHAiOjE3MDI1ODExMjl9.XjTjT5Ey_4S_iBp-33wF0W8uUd1K92iAqIjTZRkzqCo
 
 {
   "thumbnail": "iwni adalahdatanya",
@@ -43,4 +43,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc4Y
 
 ###
 GET http://localhost:3002/savedNews
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc4YzllYmZkNDBlZDY3NTkyZmI0NTYiLCJuYW1lIjoicGVvcGxlNCIsImVtYWlsIjoicGVvcGxlNEBnbWFpbC5jb20iLCJpYXQiOjE3MDI0MTUzODMsImV4cCI6MTcwMjQxNjI4M30.fdXOvwK5eY65d8brjAfMzC6DKHsSTQbRMbOLaWtLBS8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTdiNGZkZDZiODY2YjM5ODdiNDVjMzkiLCJuYW1lIjoicGVvcGxlMSIsImVtYWlsIjoicGVvcGxlMTJAZ21haWwuY29tIiwiaWF0IjoxNzAyNTgwMjI5LCJleHAiOjE3MDI1ODExMjl9.XjTjT5Ey_4S_iBp-33wF0W8uUd1K92iAqIjTZRkzqCo
