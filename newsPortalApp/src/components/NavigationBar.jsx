@@ -1,11 +1,20 @@
-import { Container, Navbar, Nav } from "react-bootstrap";
+import { useEffect } from "react";
+import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-//import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-//import { icon } from "@fortawesome/fontawesome-svg-core";
+import axios from "axios";
 
-function NavigationBar() {
+function NavigationBar({ userAuth }) {
   const activeNav = function ({ isActive, isPending }) {
     return isPending ? "pending" : isActive ? "active" : "";
+  };
+
+  const handleLogout = async () => {
+    try {
+      await axios.delete("http://localhost:3002/logout");
+      console.log("executed logout.");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -33,9 +42,20 @@ function NavigationBar() {
               <NavLink to="saved-news" className={activeNav}>
                 Saved News
               </NavLink>
-              <NavLink to="login" className={activeNav}>
-                Login
-              </NavLink>
+
+              {userAuth ? (
+                <NavLink
+                  onClick={handleLogout}
+                  to="login"
+                  className={activeNav}
+                >
+                  Logout
+                </NavLink>
+              ) : (
+                <NavLink to="login" className={activeNav}>
+                  Login
+                </NavLink>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Navbar>

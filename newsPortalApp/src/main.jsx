@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import {
@@ -6,7 +6,6 @@ import {
   createRoutesFromElements,
   Route,
   RouterProvider,
-  useParams,
 } from "react-router-dom";
 import {
   SavedNewsPage,
@@ -15,6 +14,9 @@ import {
   HomePage,
 } from "./pages/pages.js";
 import NewsSearchByCategories from "./components/NewsSearchByCategories.jsx";
+import axios from "axios";
+
+axios.defaults.withCredentials = true; //set true for each req has sent.
 
 const handleSubmit__form = function asdf() {
   return null;

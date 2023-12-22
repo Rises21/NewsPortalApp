@@ -12,14 +12,14 @@ Content-Type: application/json
     "password": "178910890"
 }
 
-###
+### 
 
 POST http://localhost:3002/login
 Content-Type: application/json
 
 {
-    "email": "people12@gmail.com",
-    "password": "anything4"
+    "email": "asdf@gmail.com",
+    "password": "asdfasdf"
 }
 
 ###
@@ -31,7 +31,7 @@ DELETE http://localhost:3002/logout
 ###
 POST http://localhost:3002/savedNews
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTdiNGZkZDZiODY2YjM5ODdiNDVjMzkiLCJuYW1lIjoicGVvcGxlMSIsImVtYWlsIjoicGVvcGxlMTJAZ21haWwuY29tIiwiaWF0IjoxNzAyNTgwMjI5LCJleHAiOjE3MDI1ODExMjl9.XjTjT5Ey_4S_iBp-33wF0W8uUd1K92iAqIjTZRkzqCo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTg1MmVmNjkwMDg5ZWE4NzBiZjBmNDciLCJuYW1lIjoiYXNkZiIsImVtYWlsIjoiYXNkZkBnbWFpbC5jb20iLCJpYXQiOjE3MDMyNDY4MTEsImV4cCI6MTcwMzI0NzcxMX0.LM_GA7LLxNMms81ghe4r6wjO2YOryDQe_UDhzLkRe4o
 
 {
   "thumbnail": "iwni adalahdatanya",
@@ -43,4 +43,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTdiN
 
 ###
 GET http://localhost:3002/savedNews
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTdiNGZkZDZiODY2YjM5ODdiNDVjMzkiLCJuYW1lIjoicGVvcGxlMSIsImVtYWlsIjoicGVvcGxlMTJAZ21haWwuY29tIiwiaWF0IjoxNzAyNTgwMjI5LCJleHAiOjE3MDI1ODExMjl9.XjTjT5Ey_4S_iBp-33wF0W8uUd1K92iAqIjTZRkzqCo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTg1MmVmNjkwMDg5ZWE4NzBiZjBmNDciLCJuYW1lIjoiYXNkZiIsImVtYWlsIjoiYXNkZkBnbWFpbC5jb20iLCJpYXQiOjE3MDMyNDY4MTEsImV4cCI6MTcwMzI0NzcxMX0.LM_GA7LLxNMms81ghe4r6wjO2YOryDQe_UDhzLkRe4o

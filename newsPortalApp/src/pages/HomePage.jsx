@@ -2,33 +2,32 @@ import { useEffect, useState } from "react";
 import { Carousel } from "react-bootstrap";
 import SearchBar from "../components/SearchBar";
 import axiosClient from "../api/axiosClient";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 function HomePage() {
-  const navigate = useNavigate();
   const [index, setIndex] = useState(0);
   const [news, setNews] = useState([]);
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
+  const topHeadline = () =>
+    axiosClient
+      .get("terbaru")
+      .then((res) => res.data)
+      .then((data) => {
+        let carouselNews = [];
+        for (const idx in data.data.posts) {
+          if (idx <= 4) {
+            carouselNews.push(data.data.posts[idx]);
+          }
+        }
+        setNews(carouselNews);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => console.log("executed!"));
 
   useEffect(() => {
-    const topHeadline = () =>
-      axiosClient
-        .get("terbaru")
-        .then((res) => res.data)
-        .then((data) => {
-          let carouselNews = [];
-          for (const idx in data.data.posts) {
-            if (idx <= 4) {
-              carouselNews.push(data.data.posts[idx]);
-            }
-          }
-          setNews(carouselNews);
-        })
-        .catch((err) => console.log(err))
-        .finally(() => console.log("executed!"));
     topHeadline();
   }, []);
 

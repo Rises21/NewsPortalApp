@@ -14,7 +14,7 @@ export const refreshToken = async (req, res) => {
     const secretAccess = process.env.ACCESS_TOKEN_SECRET;
 
     jwt.verify(refreshToken, secret, (err, decoded) => {
-      console.log(decoded, "this is decoded");
+      //console.log(decoded, "this is decoded");
       if (err) {
         return res.sendStatus(403);
       }
