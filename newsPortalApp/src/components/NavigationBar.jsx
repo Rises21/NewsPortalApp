@@ -1,21 +1,16 @@
-import { useEffect } from "react";
-import { Container, Navbar, Nav, Button } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Container, Navbar, Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
+import useFetch from "../api/customHooks/useFetch";
 
-function NavigationBar({ userAuth }) {
+function NavigationBar({ refreshToken, handleLogout }) {
+  useFetch("http://localhost:3002/token");
   const activeNav = function ({ isActive, isPending }) {
     return isPending ? "pending" : isActive ? "active" : "";
   };
 
-  const handleLogout = async () => {
-    try {
-      await axios.delete("http://localhost:3002/logout");
-      console.log("executed logout.");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {}, [refreshToken]);
 
   return (
     <Navbar expand="lg" className="rgb-background">
@@ -43,7 +38,7 @@ function NavigationBar({ userAuth }) {
                 Saved News
               </NavLink>
 
-              {userAuth ? (
+              {refreshToken ? (
                 <NavLink
                   onClick={handleLogout}
                   to="login"

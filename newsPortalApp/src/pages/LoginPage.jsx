@@ -1,11 +1,12 @@
 import { Row, Col, Form, Button } from "react-bootstrap";
 import gmailLogo from "../assets/gmailLogo.svg";
 import passwordIcon from "../assets/passwordIcon.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { handleLogin, msgLogin } = useOutletContext();
 
   function handleClick() {
     navigate("/register");
@@ -13,24 +14,6 @@ const LoginPage = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [msg, setMsg] = useState("");
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    console.log(email, password, "<<<");
-    try {
-      const res = await axios.post("http://localhost:3002/login", {
-        email,
-        password,
-      });
-      setMsg(res.data.msg);
-      setTimeout(() => {
-        navigate("/", { replace: true });
-      }, 3000);
-    } catch (error) {
-      if (error.response) return setMsg(error.response.data.msg);
-    }
-  };
 
   return (
     <div className="forBg__wrapper">
@@ -43,15 +26,18 @@ const LoginPage = () => {
             <div className="tittleHeader__container">
               <h3 className="tittleHeader__login">Login</h3>
             </div>
-            <Form className="loginForm" onSubmit={handleLogin}>
+            <Form
+              className="loginForm"
+              onSubmit={(e) => handleLogin(e, email, password)}
+            >
               <p
                 className={
-                  msg === "Login Success."
+                  msgLogin === "Login Success."
                     ? "text-success fw-bold"
                     : "text-danger fw-bold"
                 }
               >
-                {msg}
+                {msgLogin}
               </p>
               <Form.Group className="m-3 containerInput__user">
                 {/* <Form.Label htmlFor="inputPassword5">Email</Form.Label> */}

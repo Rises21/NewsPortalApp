@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useParams } from "react-router-dom";
-import dateConvert from "../utils";
+import dateConvert from "../utils/convertDate.js";
 import { Button, Card } from "react-bootstrap";
 import axiosClient from "../api/axiosClient";
 import NewsPagination from "./NewsPagination";
@@ -40,14 +40,16 @@ const NewsSearchByCategories = () => {
           newsByCategory.map((news, idx) => {
             idx++;
             if (idx <= page * limit && idx > (page - 1) * limit) {
-              console.log(
+              {
+                /* console.log(
                 idx,
                 page * limit,
                 idx,
                 (page - 1) * limit,
                 newsByCategory.length,
                 totalPages
-              );
+              ); */
+              }
               return (
                 <Card className="newsCardCategories" key={idx}>
                   <Card.Img variant="top" src={news.thumbnail} />

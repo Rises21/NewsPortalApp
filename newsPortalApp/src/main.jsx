@@ -18,10 +18,6 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true; //set true for each req has sent.
 
-const handleSubmit__form = function asdf() {
-  return null;
-};
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>

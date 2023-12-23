@@ -1,34 +1,49 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import NewsPagination from "../components/NewsPagination";
 import { Button, Card } from "react-bootstrap";
+import dateConvert from "../utils/convertDate.js";
 
 const SavedNewsPage = () => {
-  const { userAuth, cbAuth, token } = useOutletContext();
-  // console.log(userAuth, "user..");
-  const [news, setNews] = useState();
+  const navigate = useNavigate();
+  const { token } = useOutletContext();
+  const [isLoading, setIsLoading] = useState(false);
+  const [news, setNews] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const limit = 10;
 
   const fetchSavedNews = async () => {
     try {
-      const res = await axios.get("http://localhost:3002/savedNews", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setNews(res.data.data);
-      setTotalPages(Math.round(res.data.data.length / limit));
-      console.log(res, "resss...");
+      setIsLoading(true);
+      setTimeout(async () => {
+        const res = await axios.get("http://localhost:3002/savedNews", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!token) return navigate("/login", { replace: true });
+        setNews(res.data);
+        setTotalPages(Math.round(res.data.length / limit));
+      }, 2000);
     } catch (err) {
-      console.log(err.response);
+      console.log(err);
+      if (err.response.status === 401) setIsLogin(false);
+      if (err.response.status === 403) navigate("/login");
     }
   };
+
+  const tester = (e) => {
+    e.preventDefault();
+    console.log(news);
+  };
+
   useEffect(() => {
-    fetchSavedNews();
-  }, [news, page]);
+    {
+      token && fetchSavedNews();
+    }
+  }, [token, isLoading]);
 
   const handleChangePage = useCallback((page) => {
     setPage(page);
@@ -36,18 +51,10 @@ const SavedNewsPage = () => {
   return (
     <div>
       <div className="d-flex flex-wrap justify-content-center gap-2">
-        {news ? (
+        {news &&
           news?.map((newss, idx) => {
             idx++;
             if (idx <= page * limit && idx > (page - 1) * limit) {
-              console.log(
-                idx,
-                page * limit,
-                idx,
-                (page - 1) * limit,
-                news.length,
-                totalPages
-              );
               return (
                 <Card className="newsCardCategories" key={idx}>
                   <Card.Img variant="top" src={newss.thumbnail} />
@@ -56,14 +63,21 @@ const SavedNewsPage = () => {
                     <Card.Text>{newss.description}</Card.Text>
                     <div className="text-center">
                       <Button
-                        className="pl-4"
+                        className="pl-4 mx-2"
                         variant="primary"
                         href={newss.link}
                       >
-                        Read More
-                      </Button>{" "}
-                      <Card.Text>
-                        {" "}
+                        Read more
+                      </Button>
+                      <Button
+                        className="pl-4 mx-2"
+                        variant="danger"
+                        href={newss.link}
+                        onClick={tester}
+                      >
+                        Delete from saved
+                      </Button>
+                      <Card.Text className="mt-2">
                         Published at {dateConvert(newss.pubDate)} {idx}
                       </Card.Text>
                     </div>
@@ -71,9 +85,14 @@ const SavedNewsPage = () => {
                 </Card>
               );
             }
-          })
-        ) : (
-          <div className="text-center mt-5">Loading . . .</div>
+          })}
+        {isLoading && !news && (
+          <h4 className="text-center mt-5">Loading . . .</h4>
+        )}
+        {!isLoading && !token && (
+          <h3 className="text-center py-5 mt-5">
+            Please Login to use this feature.
+          </h3>
         )}
       </div>
       <NewsPagination

@@ -2,10 +2,10 @@ import News from "../models/SavedNews.js";
 import User from "../models/User.js";
 
 export const getNews = async (req, res) => {
-  console.log(req.email, "????");
+  //console.log(req.email, "????");
   try {
     const user = await User.findOne({ email: req.email });
-    console.log(user, "<<user<<");
+    //console.log(user, "<<user<<");
     const news = await News.find({ user: user._id });
     res.status(200).json(news);
   } catch (err) {

@@ -16,7 +16,7 @@ export const refreshToken = async (req, res) => {
     jwt.verify(refreshToken, secret, (err, decoded) => {
       //console.log(decoded, "this is decoded");
       if (err) {
-        return res.sendStatus(403);
+        return res.status(403).json({ msg: "wrong token" });
       }
       const userId = user[0]._id,
         name = user[0].name,
