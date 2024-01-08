@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { Carousel } from "react-bootstrap";
 import SearchBar from "../components/SearchBar";
 import axiosClient from "../api/axiosClient";
-import { Outlet } from "react-router-dom";
+import { Outlet, useOutletContext } from "react-router-dom";
 
 function HomePage() {
   const [index, setIndex] = useState(0);
   const [news, setNews] = useState([]);
+  const { token } = useOutletContext();
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
@@ -64,7 +65,7 @@ function HomePage() {
         <div className="">
           <SearchBar />
         </div>
-        <Outlet />
+        <Outlet context={token} />
       </div>
     </div>
   );

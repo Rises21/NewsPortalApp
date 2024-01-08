@@ -12,7 +12,7 @@ const SavedNewsPage = () => {
   const [news, setNews] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const limit = 10;
+  const limit = 9;
 
   const fetchSavedNews = async () => {
     try {

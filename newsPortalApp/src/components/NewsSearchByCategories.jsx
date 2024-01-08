@@ -1,16 +1,45 @@
-import React, { useCallback } from "react";
-import { useParams } from "react-router-dom";
+import React, { useCallback, useState } from "react";
+import { useOutletContext, useParams } from "react-router-dom";
 import dateConvert from "../utils/convertDate.js";
 import { Button, Card } from "react-bootstrap";
 import axiosClient from "../api/axiosClient";
 import NewsPagination from "./NewsPagination";
+import axios from "axios";
 
 const NewsSearchByCategories = () => {
+  const token = useOutletContext();
+  console.log(token, "fromkategori");
   let params = useParams();
   const [newsByCategory, setNewsByCategory] = React.useState([]);
   const [page, setPage] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(0);
-  const limit = 10;
+  const limit = 9;
+  const [msg, setMsg] = useState("");
+
+  const handleBookmark = async (e, news) => {
+    e.preventDefault();
+    console.log("exec");
+    try {
+      const res = await axios.post(
+        "http://localhost:3002/savedNews",
+        { ...news },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setMsg(res.data.msg);
+      console.log("exec 2");
+      setTimeout(() => {
+        setMsg(null);
+      }, 3000);
+    } catch (error) {
+      console.log("exec 3", error);
+      if (error.response) return setMsg(error.response.data.msg);
+    }
+  };
 
   React.useEffect(() => {
     const apiLokal = function () {
@@ -35,6 +64,7 @@ const NewsSearchByCategories = () => {
 
   return (
     <div>
+      {/* <div className=" position-absolute top-0 p-4 m-4 bg-success">{msg}</div>  //edit later !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */}
       <div className="d-flex flex-wrap justify-content-center gap-2">
         {newsByCategory ? (
           newsByCategory.map((news, idx) => {
@@ -63,6 +93,14 @@ const NewsSearchByCategories = () => {
                         href={news.link}
                       >
                         Read More
+                      </Button>{" "}
+                      <Button
+                        className="pl-4"
+                        variant="primary"
+                        href={news.link}
+                        onClick={(e) => handleBookmark(e, news)}
+                      >
+                        Bookmark
                       </Button>{" "}
                       <Card.Text>
                         {" "}
