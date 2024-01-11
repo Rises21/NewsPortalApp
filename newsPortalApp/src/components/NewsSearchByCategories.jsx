@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { useOutletContext, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import dateConvert from "../utils/convertDate.js";
 import { Button, Card } from "react-bootstrap";
 import axiosClient from "../api/axiosClient";
@@ -7,8 +7,6 @@ import NewsPagination from "./NewsPagination";
 import axios from "axios";
 
 const NewsSearchByCategories = () => {
-  const token = useOutletContext();
-  console.log(token, "fromkategori");
   let params = useParams();
   const [newsByCategory, setNewsByCategory] = React.useState([]);
   const [page, setPage] = React.useState(1);
@@ -56,7 +54,7 @@ const NewsSearchByCategories = () => {
         .finally(() => console.log("executed!"));
     };
     apiLokal();
-  }, [params.category, page]);
+  }, [params.category, page, msg]);
 
   const handleChangePage = useCallback((page) => {
     setPage(page);
@@ -64,22 +62,21 @@ const NewsSearchByCategories = () => {
 
   return (
     <div>
-      {/* <div className=" position-absolute top-0 p-4 m-4 bg-success">{msg}</div>  //edit later !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */}
+      {msg && (
+        <div
+          id="successSavedNewsAlert"
+          className="position-fixed  text-center m-auto w-100 mt-4"
+        >
+          <div className=" p-2 bg-success w-75 m-auto">
+            <h4>{msg}</h4>
+          </div>
+        </div>
+      )}
       <div className="d-flex flex-wrap justify-content-center gap-2">
         {newsByCategory ? (
           newsByCategory.map((news, idx) => {
             idx++;
             if (idx <= page * limit && idx > (page - 1) * limit) {
-              {
-                /* console.log(
-                idx,
-                page * limit,
-                idx,
-                (page - 1) * limit,
-                newsByCategory.length,
-                totalPages
-              ); */
-              }
               return (
                 <Card className="newsCardCategories" key={idx}>
                   <Card.Img variant="top" src={news.thumbnail} />
@@ -104,7 +101,7 @@ const NewsSearchByCategories = () => {
                       </Button>{" "}
                       <Card.Text>
                         {" "}
-                        Published at {dateConvert(news.pubDate)} {idx}
+                        Published at {dateConvert(news.pubDate)}
                       </Card.Text>
                     </div>
                   </Card.Body>

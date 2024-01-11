@@ -8,6 +8,10 @@ import useFetch from "./api/customHooks/useFetch";
 function App() {
   const navigate = useNavigate();
   const [msgLogin, setMsgLogin] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
+  const [refreshToken, setRefreshToken] = useState("");
+  // console.log(isLogin);
+  // console.log(refreshToken);
   const handleLogin = async (e, email, password) => {
     e.preventDefault();
     console.log(email, password, "<<<");
@@ -17,7 +21,8 @@ function App() {
         password,
       });
       setMsgLogin(res.data.msg);
-      //setRefreshToken(res.data.accessToken);
+      setIsLogin(true);
+      setRefreshToken(res.data.accessToken);
       setTimeout(() => {
         navigate("/", { replace: true });
         setMsgLogin("");
@@ -31,76 +36,34 @@ function App() {
     try {
       await axios.delete("http://localhost:3002/logout");
       console.log("executed logout.");
+      setIsLogin(false);
       setRefreshToken("");
       navigate("/login", { replace: true });
     } catch (error) {
       console.log(error);
     }
   };
-  const { userAuth, token, expire } = useFetch("http://localhost:3002/token");
-  const [refreshToken, setRefreshToken] = useState("");
-  console.log(token, "token app");
-  console.log(refreshToken, "<<<<<");
+
   useEffect(() => {
-    setRefreshToken(token);
-  }, [token, msgLogin]);
-
-  // const navigate = useNavigate();
-  // const [userAuth, setUserAuth] = useState(null);
-  // const [token, setToken] = useState("");
-  // const [expire, setExpire] = useState("");
-  // useEffect(() => {
-  //   refreshtTokenAuth();
-  // }, [token]);
-
-  // const refreshtTokenAuth = async () => {
-  //   try {
-  //     const res = await axios.get("http://localhost:3002/token");
-  //     setToken(res.data.accessToken);
-  //     const decoded = jwtDecode(res.data.accessToken);
-  //     setUserAuth(decoded);
-  //     setExpire(decoded.exp);
-  //     return {token}
-  //   } catch (error) {
-  //     if (error.response) navigate("/login");
-  //     console.log(error.response);
-  //   }
-  // };
-
-  // const axiosJWT = axios.create();
-
-  // axiosJWT.interceptors.request.use(
-  //   async (config) => {
-  //     const currentDate = new Date();
-  //     if (expire * 1000 < currentDate.getTime()) {
-  //       const res = await axios.get("http://localhost:3002/token");
-  //       config.headers.Authorization = `Bearer ${res.data.accessToken}`;
-  //       setToken(res.data.accessToken);
-  //       const decoded = jwtDecode(res.data.accessToken);
-  //       setUserAuth(decoded);
-  //       setExpire(decoded.exp);
-  //     }
-  //     return config;
-  //   },
-  //   (err) => {
-  //     return Promise.reject(err);
-  //   }
-  // );
+    if (refreshToken) setIsLogin(true);
+  }, [refreshToken, isLogin, msgLogin]);
 
   return (
     <>
       <header id="header" className="w-100">
         <NavigationBar
-          refreshToken={refreshToken}
           handleLogout={handleLogout}
+          isLogin={isLogin}
+          setRefreshToken={setRefreshToken}
         />
       </header>
       <main id="main">
         <Outlet
           context={{
-            token: refreshToken,
             handleLogin: handleLogin,
             msgLogin: msgLogin,
+            isLogin: isLogin,
+            setIsLogin: setIsLogin,
           }}
         />
       </main>

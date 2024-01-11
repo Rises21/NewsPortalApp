@@ -4,15 +4,19 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import NewsPagination from "../components/NewsPagination";
 import { Button, Card } from "react-bootstrap";
 import dateConvert from "../utils/convertDate.js";
+import useFetch from "../api/customHooks/useFetch.js";
+import SearchBar from "../components/SearchBar.jsx";
 
 const SavedNewsPage = () => {
   const navigate = useNavigate();
-  const { token } = useOutletContext();
+  const { isLogin } = useOutletContext();
+  const { userAuth, token, expire } = useFetch("http://localhost:3002/token");
   const [isLoading, setIsLoading] = useState(false);
-  const [news, setNews] = useState(null);
+  const [news, setNews] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const limit = 9;
+  console.log(news, "<<<", isLogin, ">>>", isLoading, "??", Boolean(!!token));
 
   const fetchSavedNews = async () => {
     try {
@@ -26,6 +30,7 @@ const SavedNewsPage = () => {
         if (!token) return navigate("/login", { replace: true });
         setNews(res.data);
         setTotalPages(Math.round(res.data.length / limit));
+        if (news[0] === undefined) setIsLoading(false);
       }, 2000);
     } catch (err) {
       console.log(err);
@@ -41,15 +46,16 @@ const SavedNewsPage = () => {
 
   useEffect(() => {
     {
-      token && fetchSavedNews();
+      token && isLogin && fetchSavedNews();
     }
-  }, [token, isLoading]);
+  }, [token, isLogin]);
 
   const handleChangePage = useCallback((page) => {
     setPage(page);
   }, []);
   return (
     <div>
+      {token && <SearchBar />}
       <div className="d-flex flex-wrap justify-content-center gap-2">
         {news &&
           news?.map((newss, idx) => {
@@ -78,7 +84,7 @@ const SavedNewsPage = () => {
                         Delete from saved
                       </Button>
                       <Card.Text className="mt-2">
-                        Published at {dateConvert(newss.pubDate)} {idx}
+                        Published at {dateConvert(newss.pubDate)}
                       </Card.Text>
                     </div>
                   </Card.Body>
@@ -86,10 +92,13 @@ const SavedNewsPage = () => {
               );
             }
           })}
-        {isLoading && !news && (
-          <h4 className="text-center mt-5">Loading . . .</h4>
+        {isLoading && <h4 className="text-center mt-5">Loading . . .</h4>}
+        {!isLoading && isLogin && news[0] === undefined && (
+          <h4 className="text-center mt-5">
+            Empty Saved News, lets read another one and save it.
+          </h4>
         )}
-        {!isLoading && !token && (
+        {!isLogin && !token && (
           <h3 className="text-center py-5 mt-5">
             Please Login to use this feature.
           </h3>

@@ -63,7 +63,18 @@ function HomePage() {
           ))}
         </Carousel>
         <div className="">
-          <SearchBar />
+          <SearchBar
+            categories={[
+              "Terbaru",
+              "News",
+              "Market",
+              "Entrepreneur",
+              "Syariah",
+              "Tech",
+              "Lifestyle",
+              "Opini",
+            ]}
+          />
         </div>
         <Outlet context={token} />
       </div>

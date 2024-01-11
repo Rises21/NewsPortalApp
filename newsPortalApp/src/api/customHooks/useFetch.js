@@ -18,7 +18,7 @@ const useFetch = (url) => {
       setUserAuth(decoded);
       setExpire(decoded.exp);
     } catch (error) {
-      if (error.response) navigate("/login");
+      if (error.response.status !== 401) navigate("/login");
       console.log(error.response);
     }
   };

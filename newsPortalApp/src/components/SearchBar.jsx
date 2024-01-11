@@ -9,18 +9,8 @@ import {
 } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
-function SearchBar() {
-  const categories = [
-    "Terbaru",
-    "News",
-    "Market",
-    "Entrepreneur",
-    "Syariah",
-    "Tech",
-    "Lifestyle",
-    "Opini",
-  ];
-
+function SearchBar({ categories = null }) {
+  //console.log(categories);
   return (
     <>
       <Form className="pt-4 m-3">
@@ -48,17 +38,19 @@ function SearchBar() {
           </Col>
         </Row>
       </Form>
-      <div className="text-center text-light pt-3">
-        <h6 className="w-50 p-2 fw-bold  border-1 border bg-success m-auto">
-          SEARCH BY CATEGORIES
-        </h6>
-      </div>
+      {categories && (
+        <div className="text-center text-light pt-3">
+          <h6 className="w-50 p-2 fw-bold  border-1 border bg-success m-auto">
+            SEARCH BY CATEGORIES
+          </h6>
+        </div>
+      )}
       <Stack
         direction="horizontal"
         gap={3}
         className="categoriesNav p-3 justify-content-center flex-wrap"
       >
-        {categories.map((category, index) => {
+        {categories?.map((category, index) => {
           return (
             <NavLink
               key={index}

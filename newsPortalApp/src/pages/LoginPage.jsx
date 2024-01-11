@@ -3,7 +3,7 @@ import gmailLogo from "../assets/gmailLogo.svg";
 import passwordIcon from "../assets/passwordIcon.svg";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
+
 const LoginPage = () => {
   const navigate = useNavigate();
   const { handleLogin, msgLogin } = useOutletContext();
@@ -40,7 +40,6 @@ const LoginPage = () => {
                 {msgLogin}
               </p>
               <Form.Group className="m-3 containerInput__user">
-                {/* <Form.Label htmlFor="inputPassword5">Email</Form.Label> */}
                 <Form.Control
                   type="email"
                   id="inputEmail"
@@ -54,7 +53,6 @@ const LoginPage = () => {
                 </span>
               </Form.Group>
               <Form.Group className="m-3 containerInput__user">
-                {/* <Form.Label htmlFor="inputPassword">Password</Form.Label> */}
                 <Form.Control
                   type="password"
                   id="inputPassword"
