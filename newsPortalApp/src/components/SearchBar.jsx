@@ -9,20 +9,33 @@ import {
 } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
-function SearchBar({ categories = null }) {
+function SearchBar({ categories = null, setQuery = null, arr = null }) {
   //console.log(categories);
+
+  const onSearch = (e) => {
+    e.preventDefault();
+
+    return setQuery(document.getElementById("searchField").value);
+  };
+  const onSearchIsNull = (e) => {
+    if (e.target.value === "") {
+      return setQuery("");
+    }
+  };
+
   return (
     <>
-      <Form className="pt-4 m-3">
+      <Form onSubmit={onSearch} className="pt-4 m-3">
         <Row className="justify-content-center">
           <Col xs="10" sm="6" className="my-1">
-            <Form.Label htmlFor="inlineFormInputGroupUsername" visuallyHidden>
+            <Form.Label htmlFor="searchField" visuallyHidden>
               Search News
             </Form.Label>
             <InputGroup>
               <Form.Control
-                id="inlineFormInputGroupUsername"
+                id="searchField"
                 placeholder="Search News"
+                onChange={onSearchIsNull}
               />
             </InputGroup>
           </Col>

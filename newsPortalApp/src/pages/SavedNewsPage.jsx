@@ -16,8 +16,18 @@ const SavedNewsPage = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const limit = 9;
-  console.log(news, "<<<", isLogin, ">>>", isLoading, "??", Boolean(!!token));
+  //console.log(news, "<<<", isLogin, ">>>", isLoading, "??", Boolean(!!token));
 
+  const [query, setQuery] = useState("");
+  const filteredSearch = [];
+  const filteredNews = (arr, query) => {
+    return arr.filter((item) => {
+      if (item.title.toLowerCase().includes(query.toLowerCase())) {
+        filteredSearch.push(item);
+        console.log(filteredSearch);
+      }
+    });
+  };
   const fetchSavedNews = async () => {
     try {
       setIsLoading(true);
@@ -39,11 +49,6 @@ const SavedNewsPage = () => {
     }
   };
 
-  const tester = (e) => {
-    e.preventDefault();
-    console.log(news);
-  };
-
   useEffect(() => {
     {
       token && isLogin && fetchSavedNews();
@@ -55,7 +60,9 @@ const SavedNewsPage = () => {
   }, []);
   return (
     <div>
-      {token && <SearchBar />}
+      <p>{query}</p>
+      {token && <SearchBar setQuery={setQuery} />}
+      {query && filteredNews(news, query)}
       <div className="d-flex flex-wrap justify-content-center gap-2">
         {news &&
           news?.map((newss, idx) => {
@@ -79,7 +86,6 @@ const SavedNewsPage = () => {
                         className="pl-4 mx-2"
                         variant="danger"
                         href={newss.link}
-                        onClick={tester}
                       >
                         Delete from saved
                       </Button>
