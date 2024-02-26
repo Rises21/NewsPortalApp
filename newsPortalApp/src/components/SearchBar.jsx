@@ -9,7 +9,12 @@ import {
 } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
-function SearchBar({ categories = null, setQuery = null, arr = null }) {
+function SearchBar({
+  categories = null,
+  setQuery = null,
+  arr = null,
+  setPage,
+}) {
   //console.log(categories);
 
   const onSearch = (e) => {
@@ -19,6 +24,7 @@ function SearchBar({ categories = null, setQuery = null, arr = null }) {
   };
   const onSearchIsNull = (e) => {
     if (e.target.value === "") {
+      setPage(1);
       return setQuery("");
     }
   };

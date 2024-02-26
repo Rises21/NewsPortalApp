@@ -1,12 +1,14 @@
 import React, { useCallback, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import dateConvert from "../utils/convertDate.js";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Fade } from "react-bootstrap";
 import axiosClient from "../api/axiosClient";
 import NewsPagination from "./NewsPagination";
 import axios from "axios";
+import useFetch from "../api/customHooks/useFetch.js";
 
 const NewsSearchByCategories = () => {
+  const { refreshToken } = useOutletContext();
   let params = useParams();
   const [newsByCategory, setNewsByCategory] = React.useState([]);
   const [page, setPage] = React.useState(1);
@@ -16,15 +18,17 @@ const NewsSearchByCategories = () => {
 
   const handleBookmark = async (e, news) => {
     e.preventDefault();
-    console.log("exec");
+    console.log("exec", refreshToken);
     try {
       const res = await axios.post(
         "http://localhost:3002/savedNews",
-        { ...news },
+        {
+          ...news,
+        },
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${refreshToken}`,
           },
         }
       );
@@ -32,7 +36,7 @@ const NewsSearchByCategories = () => {
       console.log("exec 2");
       setTimeout(() => {
         setMsg(null);
-      }, 3000);
+      }, 2500);
     } catch (error) {
       console.log("exec 3", error);
       if (error.response) return setMsg(error.response.data.msg);
@@ -54,7 +58,7 @@ const NewsSearchByCategories = () => {
         .finally(() => console.log("executed!"));
     };
     apiLokal();
-  }, [params.category, page, msg]);
+  }, [params.category, page, msg, refreshToken]);
 
   const handleChangePage = useCallback((page) => {
     setPage(page);
@@ -63,14 +67,17 @@ const NewsSearchByCategories = () => {
   return (
     <div>
       {msg && (
-        <div
-          id="successSavedNewsAlert"
-          className="position-fixed  text-center m-auto w-100 mt-4"
+        <Fade
+          in={true}
+          appear={true}
+          className="alert alert-success position-fixed top-0 start-50 mt-2 z-3 text-center translate-middle-x container"
         >
-          <div className=" p-2 bg-success w-75 m-auto">
-            <h4>{msg}</h4>
+          <div id="successSavedNewsAlert" role="alert">
+            <div className=" p-2">
+              <h4>{msg}</h4>
+            </div>
           </div>
-        </div>
+        </Fade>
       )}
       <div className="d-flex flex-wrap justify-content-center gap-2">
         {newsByCategory ? (

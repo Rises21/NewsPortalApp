@@ -2,7 +2,7 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import NewsPagination from "../components/NewsPagination";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Fade } from "react-bootstrap";
 import dateConvert from "../utils/convertDate.js";
 import useFetch from "../api/customHooks/useFetch.js";
 import SearchBar from "../components/SearchBar.jsx";
@@ -15,18 +15,28 @@ const SavedNewsPage = () => {
   const [news, setNews] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [delMsg, setDelMsg] = useState("");
   const limit = 9;
   //console.log(news, "<<<", isLogin, ">>>", isLoading, "??", Boolean(!!token));
 
   const [query, setQuery] = useState("");
   const filteredSearch = [];
   const filteredNews = (arr, query) => {
-    return arr.filter((item) => {
-      if (item.title.toLowerCase().includes(query.toLowerCase())) {
+    arr.filter((item) => {
+      if (
+        item.title.toLowerCase().includes(query.toLowerCase()) ||
+        item.description.toLowerCase().includes(query.toLowerCase())
+      ) {
         filteredSearch.push(item);
         console.log(filteredSearch);
       }
     });
+
+    setNews(filteredSearch);
+    setTotalPages(Math.ceil(filteredSearch.length / limit));
+    setPage(totalPages);
+
+    if (news.length) setIsLoading(false);
   };
   const fetchSavedNews = async () => {
     try {
@@ -39,8 +49,9 @@ const SavedNewsPage = () => {
         });
         if (!token) return navigate("/login", { replace: true });
         setNews(res.data);
-        setTotalPages(Math.round(res.data.length / limit));
-        if (news[0] === undefined) setIsLoading(false);
+        setTotalPages(Math.ceil(res.data.length / limit));
+        console.log(res.status, res.statusText);
+        if (news[0] === undefined && res.status === 200) setIsLoading(false);
       }, 2000);
     } catch (err) {
       console.log(err);
@@ -49,20 +60,74 @@ const SavedNewsPage = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      const delNews = await axios.delete("http://localhost:3002/savedNews", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          id: id,
+        },
+      });
+      //console.log(id, "???", news.length);
+      if (delNews.status) {
+        fetchSavedNews();
+        setDelMsg("News has been Deleted.");
+
+        setTimeout(() => {
+          document.getElementById("delNews").classList.add("fadeOutNews");
+          //setDelMsg("");
+        }, 500);
+        setTimeout(() => {
+          setDelMsg("");
+          // if (news.length === 0) {
+          //   setIsLoading(false);
+          // }
+        }, 3000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChangePage = useCallback(
+    (page) => {
+      setPage(page);
+    },
+    [page]
+  );
+
   useEffect(() => {
     {
-      token && isLogin && fetchSavedNews();
+      token && isLogin && !query && fetchSavedNews();
     }
-  }, [token, isLogin]);
-
-  const handleChangePage = useCallback((page) => {
-    setPage(page);
-  }, []);
+    {
+      query && filteredNews(news, query);
+    }
+    console.log(news);
+    // console.log(filteredNews(news, query));
+    //console.log(news.length);
+  }, [token, isLogin, news.length, query, delMsg]);
   return (
     <div>
-      <p>{query}</p>
-      {token && <SearchBar setQuery={setQuery} />}
-      {query && filteredNews(news, query)}
+      {delMsg && (
+        <Fade
+          in={true}
+          appear={true}
+          id="delNews"
+          className="alert alert-success position-fixed top-0 start-50 mt-2 z-3 text-center translate-middle-x container"
+        >
+          <div role="alert">
+            <div className=" p-2">
+              <h4>{delMsg}</h4>
+            </div>
+          </div>
+        </Fade>
+      )}
+      {token && <SearchBar setQuery={setQuery} setPage={setPage} />}
+
       <div className="d-flex flex-wrap justify-content-center gap-2">
         {news &&
           news?.map((newss, idx) => {
@@ -85,7 +150,7 @@ const SavedNewsPage = () => {
                       <Button
                         className="pl-4 mx-2"
                         variant="danger"
-                        href={newss.link}
+                        onClick={() => handleDelete(newss._id)}
                       >
                         Delete from saved
                       </Button>
@@ -99,10 +164,13 @@ const SavedNewsPage = () => {
             }
           })}
         {isLoading && <h4 className="text-center mt-5">Loading . . .</h4>}
-        {!isLoading && isLogin && news[0] === undefined && (
+        {!isLoading && isLogin && !query && news[0] === undefined && (
           <h4 className="text-center mt-5">
             Empty Saved News, lets read another one and save it.
           </h4>
+        )}
+        {query && news[0] === undefined && (
+          <h4 className="text-center mt-5">Not found news for that keyword.</h4>
         )}
         {!isLogin && !token && (
           <h3 className="text-center py-5 mt-5">
@@ -110,6 +178,7 @@ const SavedNewsPage = () => {
           </h3>
         )}
       </div>
+
       <NewsPagination
         className="mb-0 "
         onChangePage={handleChangePage}

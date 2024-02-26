@@ -9,6 +9,20 @@ $customSixthColor: rgba(155, 155, 255);
 $customSeventhColor: rgba(155, 155, 155);
 $pureWhite: #fff;
 $pureBlack: #000;
+
+@keyframes fadingOut {
+  from {
+    opacity: 100;
+  }
+  80% {
+    opacity: 50;
+  }
+  to {
+    opacity: 0;
+    display: none;
+  }
+}
+
 html {
   height: auto;
 }
@@ -237,6 +251,11 @@ a {
     flex-direction: column;
     justify-content: end;
   }
+}
+
+.fadeOutNews {
+  animation-name: fadingOut;
+  animation-duration: 2.5s;
 }
 
 //Search By Categories &

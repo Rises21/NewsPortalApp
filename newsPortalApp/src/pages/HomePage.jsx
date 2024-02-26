@@ -7,7 +7,12 @@ import { Outlet, useOutletContext } from "react-router-dom";
 function HomePage() {
   const [index, setIndex] = useState(0);
   const [news, setNews] = useState([]);
-  const { token } = useOutletContext();
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const limit = 9;
+  const [query, setQuery] = useState("");
+  const refreshToken = useOutletContext();
+  //console.log(refreshToken, "HP");
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
@@ -74,9 +79,11 @@ function HomePage() {
               "Lifestyle",
               "Opini",
             ]}
+            setQuery={setQuery}
+            setPage={setPage}
           />
         </div>
-        <Outlet context={token} />
+        <Outlet context={refreshToken} />
       </div>
     </div>
   );
